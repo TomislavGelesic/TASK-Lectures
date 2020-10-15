@@ -11,14 +11,177 @@ class InputViewController: UIViewController {
     
     //MARK:Properties
     
+    let shortBreakLabel: UILabel = {
+        let label = UILabel ()
+        let attrString = NSMutableAttributedString(string: "Duration of short brake (in minutes)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        label.attributedText = attrString
+        label.font.withSize(10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let shortBreakTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
+        textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    let largeBreakLabel: UILabel = {
+        let label = UILabel ()
+        let attrString = NSMutableAttributedString(string: "Duration of large brake (in minutes)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        label.attributedText = attrString
+        label.font.withSize(10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let largeBreakTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
+        textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let gradeBeforeBreakLabel: UILabel = {
+        let label = UILabel ()
+        let attrString = NSMutableAttributedString(string: "After which grade is a large break", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        label.attributedText = attrString
+        label.font.withSize(10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let gradeBeforeBreakTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
+        textField.placeholder = "Enter number"
+        textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let desiredTimeLabel: UILabel = {
+        let label = UILabel ()
+        let attrString = NSMutableAttributedString(string: "Desired time", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        label.attributedText = attrString
+        label.font.withSize(10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let desiredTimeTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
+        textField.placeholder = "Enter the desired time"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let findOutButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("FIND OUT", for: .normal)
+        button.tintColor = UIColor.white
+        button.backgroundColor = UIColor.orange
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     //MARK: viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
+        navigationController?.navigationItem.title = "Lectures"
+        
+        view.addSubview(shortBreakLabel)
+        view.addSubview(shortBreakTextField)
+        view.addSubview(largeBreakLabel)
+        view.addSubview(largeBreakTextField)
+        view.addSubview(gradeBeforeBreakLabel)
+        view.addSubview(gradeBeforeBreakTextField)
+        view.addSubview(desiredTimeLabel)
+        view.addSubview(desiredTimeTextField)
+        view.addSubview(findOutButton)
+        
+        findOutButton.addTarget(self, action: #selector(findOutButtonTapped), for: .touchUpInside)
+        findOutButton.layer.cornerRadius = 20
+        findOutButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        setConstraints()
     }
 
 
+    //MARK: Functions
+    func setConstraints() {
+        
+        shortBreakLabel.topAnchor.constraint(equalTo: view.topAnchor,constant: 100).isActive = true
+        shortBreakLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        shortBreakLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        shortBreakLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        shortBreakTextField.topAnchor.constraint(equalTo: shortBreakLabel.bottomAnchor, constant: 5)
+            .isActive = true
+        shortBreakTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        shortBreakTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        shortBreakTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    
+        
+        largeBreakLabel.topAnchor.constraint(equalTo: shortBreakTextField.bottomAnchor, constant: 20).isActive = true
+        largeBreakLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        largeBreakLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        largeBreakLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        largeBreakTextField.topAnchor.constraint(equalTo: largeBreakLabel.bottomAnchor, constant: 5)
+            .isActive = true
+        largeBreakTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        largeBreakTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        largeBreakTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        
+        gradeBeforeBreakLabel.topAnchor.constraint(equalTo: largeBreakTextField.bottomAnchor,constant: 20).isActive = true
+        gradeBeforeBreakLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        gradeBeforeBreakLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        gradeBeforeBreakLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        gradeBeforeBreakTextField.topAnchor.constraint(equalTo: gradeBeforeBreakLabel.bottomAnchor, constant: 5)
+            .isActive = true
+        gradeBeforeBreakTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        gradeBeforeBreakTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        gradeBeforeBreakTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        
+        desiredTimeLabel.topAnchor.constraint(equalTo: gradeBeforeBreakTextField.bottomAnchor,constant: 20).isActive = true
+        desiredTimeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        desiredTimeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        desiredTimeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        desiredTimeTextField.topAnchor.constraint(equalTo: desiredTimeLabel.bottomAnchor, constant: 5)
+            .isActive = true
+        desiredTimeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        desiredTimeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        desiredTimeTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        
+        findOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        findOutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        findOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        findOutButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+    }
+    
+    @objc func findOutButtonTapped () {
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        shortBreakTextField.resignFirstResponder()
+        largeBreakTextField.resignFirstResponder()
+        gradeBeforeBreakTextField.resignFirstResponder()
+        desiredTimeTextField.resignFirstResponder()
+    }
 }
+
+
 
