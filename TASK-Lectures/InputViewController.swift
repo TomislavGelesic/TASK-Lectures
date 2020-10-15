@@ -7,7 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class InputViewController: UIViewController {
+    
+    //MARK:Properties
+    
+    
+    //MARK: viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
