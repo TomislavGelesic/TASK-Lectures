@@ -25,17 +25,22 @@ class ResultViewController: UIViewController {
     
     let contentView: UIView = {
         let view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let resultLabel: UILabel = {
-        let label = UILabel()        
+        let label = UILabel()
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    let exitButton: UIButton = {
+        let button = UIButton()
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     
@@ -55,14 +60,26 @@ class ResultViewController: UIViewController {
         view.addSubview(parentImage)
         parentImage.addSubview(dimmerView)
         dimmerView.addSubview(contentView)
+        contentView.addSubview(resultLabel)
+        contentView.addSubview(exitButton)
         
-        contentView.backgroundColor = .white
-        
+        exitButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
+        exitButton.isUserInteractionEnabled = true
         
         setConstraints()
     }
     //MARK: Functions
+    
+    @objc func exitButtonTapped () {
+        print("\n\ntest\n\n")
+        self.resignFirstResponder()
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    //MARK: Constraints
     func setConstraints() {
+        
         parentImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         parentImage.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         parentImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -76,14 +93,16 @@ class ResultViewController: UIViewController {
         contentView.bottomAnchor.constraint(equalTo: dimmerView.bottomAnchor).isActive = true
         contentView.leadingAnchor.constraint(equalTo: dimmerView.leadingAnchor).isActive = true
         contentView.trailingAnchor.constraint(equalTo: dimmerView.trailingAnchor).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: view.frame.height/2).isActive = true
         
+        resultLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        resultLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+        exitButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        exitButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        exitButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.resignFirstResponder()
-        dismiss(animated: false, completion: nil)
-    }
-    
     
 }

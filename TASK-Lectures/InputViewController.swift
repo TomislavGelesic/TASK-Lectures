@@ -124,28 +124,24 @@ class InputViewController: UIViewController {
     
     @objc func findOutButtonTapped () {
         
+        let shortBreakDuration = Int(shortBreakTextField.text ?? "") ?? 0
+        let largeBreakDuration = Int(largeBreakTextField.text ?? "") ?? 0
+        let gradeBeforeLargeBreak = Int(gradeBeforeBreakTextField.text ?? "" ) ?? 0
+        let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
+        let wantedMin = components.hour! * 60 + components.minute!
+        let gradeDuration:Int = 45
+        var currMin: Int = 0
+        var gradeCnt: Int = 0
+        var resultText: String = ""
+        
         if shortBreakTextField.text == "" || largeBreakTextField.text == "" || gradeBeforeBreakTextField.text == "" || desiredTimeTextField.text == "" {
             print("invalid input")
         } else {
-            
-            let shortBreakDuration = Int(shortBreakTextField.text ?? "") ?? 0
-            let largeBreakDuration = Int(largeBreakTextField.text ?? "") ?? 0
-            let gradeBeforeLargeBreak = Int(gradeBeforeBreakTextField.text ?? "" ) ?? 0
-            
-            let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
-            
             if components.hour! >= 15 {
                 print("school is already over")
             } else if components.hour! < 8{
                 print("school didn´t start yet")
             } else {
-                
-                let wantedMin = components.hour! * 60 + components.minute!
-                let gradeDuration:Int = 45
-                var currMin: Int = 0
-                var gradeCnt: Int = 0
-                var resultText: String = ""
-                
                 while currMin < 420 {
                     currMin += gradeDuration
                     gradeCnt += 1
@@ -184,7 +180,7 @@ class InputViewController: UIViewController {
         let resultViewController = ResultViewController()
         resultViewController.parentImage.image = self.navigationController?.view.asImage()
         
-        let attrString = NSMutableAttributedString(string: "Duration of short brake (in minutes)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        let attrString = NSMutableAttributedString(string: resultText, attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
         
         resultViewController.resultLabel.attributedText = attrString
         
