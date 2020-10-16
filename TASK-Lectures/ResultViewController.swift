@@ -32,13 +32,11 @@ class ResultViewController: UIViewController {
     
     let resultLabel: UILabel = {
         let label = UILabel()
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let exitButton: UIButton = {
         let button = UIButton()
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -63,7 +61,7 @@ class ResultViewController: UIViewController {
         contentView.addSubview(resultLabel)
         contentView.addSubview(exitButton)
         
-        exitButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
         exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
         exitButton.isUserInteractionEnabled = true
         

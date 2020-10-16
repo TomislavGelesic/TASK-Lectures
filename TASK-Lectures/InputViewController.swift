@@ -128,24 +128,24 @@ class InputViewController: UIViewController {
         let largeBreakDuration = Int(largeBreakTextField.text ?? "") ?? 0
         let gradeBeforeLargeBreak = Int(gradeBeforeBreakTextField.text ?? "" ) ?? 0
         let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
-        let wantedMin = components.hour! * 60 + components.minute!
+        let wantedMin:Int = components.minute! + (components.hour! - 8) * 60
         let gradeDuration:Int = 45
         var currMin: Int = 0
         var gradeCnt: Int = 0
         var resultText: String = ""
         
         if shortBreakTextField.text == "" || largeBreakTextField.text == "" || gradeBeforeBreakTextField.text == "" || desiredTimeTextField.text == "" {
-            print("invalid input")
+            resultText = "Invalid input!"
         } else {
             if components.hour! >= 15 {
-                print("school is already over")
+                resultText = "No more lectures today!"
             } else if components.hour! < 8{
-                print("school didn´t start yet")
+                resultText = "Lectures haven´t started yet!"
             } else {
                 while currMin < 420 {
                     currMin += gradeDuration
                     gradeCnt += 1
-                    if currMin <= wantedMin{
+                    if currMin > wantedMin{
                         var sufix = ""
                         switch gradeCnt {
                         case 1:
@@ -157,18 +157,18 @@ class InputViewController: UIViewController {
                         default:
                             sufix = "th"
                         }
-                        resultText = "The \(gradeDuration)\(sufix) grade is in progress"
+                        resultText = "The \(gradeCnt)\(sufix) grade is in progress"
                         break
                     }
                     if gradeCnt == gradeBeforeLargeBreak {
                         currMin += largeBreakDuration
-                        if currMin <= wantedMin{
+                        if currMin > wantedMin{
                             resultText = "The large break is in progress"
                             break
                         }
                     } else {
                         currMin += shortBreakDuration
-                        if currMin <= wantedMin{
+                        if currMin > wantedMin{
                             resultText = "The short break grade is in progress"
                             break
                         }
