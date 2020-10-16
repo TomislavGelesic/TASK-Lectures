@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60174BB32539C28B00866C5F /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60174BB22539C28B00866C5F /* ResultViewController.swift */; };
+		60174BB82539C38000866C5F /* UIView+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60174BB72539C38000866C5F /* UIView+Snapshot.swift */; };
 		606BBA1F2538B72800871ABA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606BBA1E2538B72800871ABA /* AppDelegate.swift */; };
 		606BBA232538B72800871ABA /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606BBA222538B72800871ABA /* InputViewController.swift */; };
 		606BBA282538B72A00871ABA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 606BBA272538B72A00871ABA /* Assets.xcassets */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		60174BB22539C28B00866C5F /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		60174BB72539C38000866C5F /* UIView+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Snapshot.swift"; sourceTree = "<group>"; };
 		606BBA1B2538B72800871ABA /* TASK-Lectures.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TASK-Lectures.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		606BBA1E2538B72800871ABA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		606BBA222538B72800871ABA /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				606BBA272538B72A00871ABA /* Assets.xcassets */,
 				606BBA292538B72A00871ABA /* LaunchScreen.storyboard */,
 				606BBA2C2538B72A00871ABA /* Info.plist */,
+				60174BB22539C28B00866C5F /* ResultViewController.swift */,
+				60174BB72539C38000866C5F /* UIView+Snapshot.swift */,
 			);
 			path = "TASK-Lectures";
 			sourceTree = "<group>";
@@ -251,8 +257,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60174BB82539C38000866C5F /* UIView+Snapshot.swift in Sources */,
 				606BBA232538B72800871ABA /* InputViewController.swift in Sources */,
 				606BBA1F2538B72800871ABA /* AppDelegate.swift in Sources */,
+				60174BB32539C28B00866C5F /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

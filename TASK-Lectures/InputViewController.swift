@@ -11,6 +11,8 @@ class InputViewController: UIViewController {
     
     //MARK:Properties
     
+    let timePicker = UIDatePicker()
+    
     let shortBreakLabel: UILabel = {
         let label = UILabel ()
         let attrString = NSMutableAttributedString(string: "Duration of short brake (in minutes)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
@@ -89,7 +91,7 @@ class InputViewController: UIViewController {
     }()
     
     //MARK: viewDidLoad
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -103,17 +105,108 @@ class InputViewController: UIViewController {
         view.addSubview(gradeBeforeBreakTextField)
         view.addSubview(desiredTimeLabel)
         view.addSubview(desiredTimeTextField)
-        view.addSubview(findOutButton)
         
+        timePicker.isUserInteractionEnabled = true
+        timePicker.datePickerMode = .time
+        
+        desiredTimeTextField.inputView = timePicker
+        
+        view.addSubview(findOutButton)
         findOutButton.addTarget(self, action: #selector(findOutButtonTapped), for: .touchUpInside)
         findOutButton.layer.cornerRadius = 20
         findOutButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         setConstraints()
     }
-
-
+    
+    
     //MARK: Functions
+    
+    @objc func findOutButtonTapped () {
+        
+        if shortBreakTextField.text == "" || largeBreakTextField.text == "" || gradeBeforeBreakTextField.text == "" || desiredTimeTextField.text == "" {
+            print("invalid input")
+        } else {
+            
+            let shortBreakDuration = Int(shortBreakTextField.text ?? "") ?? 0
+            let largeBreakDuration = Int(largeBreakTextField.text ?? "") ?? 0
+            let gradeBeforeLargeBreak = Int(gradeBeforeBreakTextField.text ?? "" ) ?? 0
+            
+            let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
+            
+            if components.hour! >= 15 {
+                print("school is already over")
+            } else if components.hour! < 8{
+                print("school didn´t start yet")
+            } else {
+                
+                let wantedMin = components.hour! * 60 + components.minute!
+                let gradeDuration:Int = 45
+                var currMin: Int = 0
+                var gradeCnt: Int = 0
+                var resultText: String = ""
+                
+                while currMin < 420 {
+                    currMin += gradeDuration
+                    gradeCnt += 1
+                    if currMin <= wantedMin{
+                        var sufix = ""
+                        switch gradeCnt {
+                        case 1:
+                            sufix = "st"
+                        case 2:
+                            sufix = "nd"
+                        case 3:
+                            sufix = "rd"
+                        default:
+                            sufix = "th"
+                        }
+                        resultText = "The \(gradeDuration)\(sufix) grade is in progress"
+                        break
+                    }
+                    if gradeCnt == gradeBeforeLargeBreak {
+                        currMin += largeBreakDuration
+                        if currMin <= wantedMin{
+                            resultText = "The large break is in progress"
+                            break
+                        }
+                    } else {
+                        currMin += shortBreakDuration
+                        if currMin <= wantedMin{
+                            resultText = "The short break grade is in progress"
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        
+        let resultViewController = ResultViewController()
+        resultViewController.parentImage.image = self.navigationController?.view.asImage()
+        
+        let attrString = NSMutableAttributedString(string: "Duration of short brake (in minutes)", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.24, green: 0.47, blue: 0.85, alpha: 0.6)])
+        
+        resultViewController.resultLabel.attributedText = attrString
+        
+        resultViewController.modalPresentationStyle = .fullScreen
+        self.present(resultViewController, animated: false, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
+        
+        desiredTimeTextField.text = String("\(components.hour!) : \(components.minute!)")
+        
+        shortBreakTextField.resignFirstResponder()
+        largeBreakTextField.resignFirstResponder()
+        gradeBeforeBreakTextField.resignFirstResponder()
+        desiredTimeTextField.resignFirstResponder()
+        
+    }
+    
+    
+    //MARK: Constraints
     func setConstraints() {
         
         shortBreakLabel.topAnchor.constraint(equalTo: view.topAnchor,constant: 100).isActive = true
@@ -126,7 +219,7 @@ class InputViewController: UIViewController {
         shortBreakTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         shortBreakTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         shortBreakTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    
+        
         
         largeBreakLabel.topAnchor.constraint(equalTo: shortBreakTextField.bottomAnchor, constant: 20).isActive = true
         largeBreakLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -169,17 +262,6 @@ class InputViewController: UIViewController {
         findOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         findOutButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-    }
-    
-    @objc func findOutButtonTapped () {
-        
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        shortBreakTextField.resignFirstResponder()
-        largeBreakTextField.resignFirstResponder()
-        gradeBeforeBreakTextField.resignFirstResponder()
-        desiredTimeTextField.resignFirstResponder()
     }
 }
 
